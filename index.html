@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поиск заявок</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0d1117;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+        h1 {
+            text-align: center;
+            color: #58a6ff;
+            font-size: 26px;
+            margin-bottom: 25px;
+        }
+        .category-btn {
+            width: 100%;
+            padding: 20px;
+            margin-bottom: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            color: white;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+        .category-btn:hover {
+            transform: scale(1.02);
+            opacity: 0.9;
+        }
+        .cat-1 { background: #238636; }
+        .cat-2 { background: #1f6feb; }
+        .cat-3 { background: #d29922; }
+        .category-btn .icon {
+            font-size: 28px;
+            margin-right: 15px;
+        }
+        .form-container {
+            display: none;
+        }
+        .form-container.active {
+            display: block;
+        }
+        .back-btn {
+            background: transparent;
+            border: 1px solid #30363d;
+            color: #8b949e;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        .back-btn:hover {
+            background: #21262d;
+        }
+        .form-title {
+            font-size: 22px;
+            color: #58a6ff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .form-sub {
+            text-align: center;
+            color: #8b949e;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        input {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+            background: #0d1117;
+            color: white;
+            font-size: 16px;
+        }
+        input:focus {
+            outline: none;
+            border-color: #58a6ff;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 10px;
+            border: none;
+            background: #238636;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .submit-btn:hover {
+            background: #2ea043;
+        }
+        .success-slide {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: #000;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            text-align: center;
+            padding: 20px;
+        }
+        .success-slide.active {
+            display: flex;
+        }
+        .success-icon {
+            font-size: 70px;
+            margin-bottom: 20px;
+        }
+        .success-text {
+            font-size: 28px;
+            color: #2ea043;
+            font-weight: bold;
+        }
+        .success-sub {
+            font-size: 18px;
+            color: #8b949e;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ГЛАВНОЕ МЕНЮ -->
+    <div class="container" id="mainMenu">
+        <h1>Выберите категорию</h1>
+        
+        <button class="category-btn cat-1" onclick="openForm('volunteer')">
+            <span class="icon">🤝</span> Волонтёрство
+        </button>
+        
+        <button class="category-btn cat-2" onclick="openForm('numbers')">
+            <span class="icon">📞</span> Поиск номеров
+        </button>
+        
+        <button class="category-btn cat-3" onclick="openForm('redactor')">
+            <span class="icon">✍️</span> Редакция постов
+        </button>
+    </div>
+
+    <!-- ФОРМА ВОЛОНТЁРСТВО -->
+    <div class="container form-container" id="form-volunteer">
+        <button class="back-btn" onclick="goBack()">← Назад</button>
+        <div class="form-title">🤝 Волонтёрство</div>
+        <div class="form-sub">Оставьте свои данные — мы свяжемся с вами</div>
+        <input type="text" id="vol-name" placeholder="Имя">
+        <input type="text" id="vol-surname" placeholder="Фамилия">
+        <input type="tel" id="vol-phone" placeholder="Телефон">
+        <input type="text" id="vol-city" placeholder="Город (необязательно)">
+        <button class="submit-btn" onclick="submitForm('volunteer')">Отправить заявку</button>
+    </div>
+
+    <!-- ФОРМА ПОИСК НОМЕРОВ -->
+    <div class="container form-container" id="form-numbers">
+        <button class="back-btn" onclick="goBack()">← Назад</button>
+        <div class="form-title">📞 Поиск номеров</div>
+        <div class="form-sub">Оставьте свои данные — мы свяжемся с вами</div>
+        <input type="text" id="num-name" placeholder="Имя">
+        <input type="text" id="num-surname" placeholder="Фамилия">
+        <input type="tel" id="num-phone" placeholder="Телефон">
+        <input type="text" id="num-target" placeholder="Чей номер нужно найти? (необязательно)">
+        <button class="submit-btn" onclick="submitForm('numbers')">Отправить заявку</button>
+    </div>
+
+    <!-- ФОРМА РЕДАКЦИЯ ПОСТОВ -->
+    <div class="container form-container" id="form-redactor">
+        <button class="back-btn" onclick="goBack()">← Назад</button>
+        <div class="form-title">✍️ Редакция постов</div>
+        <div class="form-sub">Оставьте свои данные — мы свяжемся с вами</div>
+        <input type="text" id="red-name" placeholder="Имя">
+        <input type="text" id="red-surname" placeholder="Фамилия">
+        <input type="tel" id="red-phone" placeholder="Телефон">
+        <input type="text" id="red-exp" placeholder="Опыт работы (необязательно)">
+        <button class="submit-btn" onclick="submitForm('redactor')">Отправить заявку</button>
+    </div>
+
+    <!-- СЛАЙД УСПЕХА -->
+    <div class="success-slide" id="successSlide">
+        <div class="success-icon">✅</div>
+        <div class="success-text">Заявка отправлена!</div>
+        <div class="success-sub">Мы свяжемся с вами в ближайшее время.</div>
+    </div>
+
+    <script>
+        function openForm(category) {
+            document.getElementById('mainMenu').style.display = 'none';
+            document.querySelectorAll('.form-container').forEach(f => f.classList.remove('active'));
+            document.getElementById('form-' + category).classList.add('active');
+        }
+
+        function goBack() {
+            document.querySelectorAll('.form-container').forEach(f => f.classList.remove('active'));
+            document.getElementById('mainMenu').style.display = 'block';
+        }
+
+        function submitForm(category) {
+            let name, surname, phone, extra;
+
+            if (category === 'volunteer') {
+                name = document.getElementById('vol-name').value;
+                surname = document.getElementById('vol-surname').value;
+                phone = document.getElementById('vol-phone').value;
+                extra = document.getElementById('vol-city').value;
+            } else if (category === 'numbers') {
+                name = document.getElementById('num-name').value;
+                surname = document.getElementById('num-surname').value;
+                phone = document.getElementById('num-phone').value;
+                extra = document.getElementById('num-target').value;
+            } else if (category === 'redactor') {
+                name = document.getElementById('red-name').value;
+                surname = document.getElementById('red-surname').value;
+                phone = document.getElementById('red-phone').value;
+                extra = document.getElementById('red-exp').value;
+            }
+
+            if (!name || !surname || !phone) {
+                alert('Пожалуйста, заполните имя, фамилию и телефон');
+                return;
+            }
+
+            // Скрываем форму, показываем успех
+            document.querySelectorAll('.form-container').forEach(f => f.classList.remove('active'));
+            document.getElementById('successSlide').classList.add('active');
+        }
+    </script>
+
+</body>
+          </html>
